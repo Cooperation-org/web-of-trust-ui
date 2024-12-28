@@ -1,20 +1,44 @@
-## Installation
+# Quick Start Guide - Web of Trust UI
 
-You can install this package via npm:
+This guide will help you quickly integrate the ClaimCard component into your Next.js application.
+
+## 1. Installation
 
 ```bash
-npm install web-of-trust-ui
+npm install @web-of-trust/ui
 ```
 
-## Usage
+## 2. Basic Setup
 
-### Basic Example
+```tsx
+// app/view/[id]/page.tsx
 
-Here’s how you can use the `web-of-trust-ui` library:
+import { ClaimCard } from '@web-of-trust/ui'
+import { useSession } from 'next-auth/react'
+import { useParams, usePathname } from 'next/navigation'
+import useGoogleDrive from '@/hooks/useGoogleDrive'
 
-```
-import { MyButton } from 'src/web-of-trust-ui';
+export default function ClaimPage() {
+  const params = useParams()
+  const pathname = usePathname()
+  const { data: session, status } = useSession()
+  const { getContent, storage, fetchFileMetadata } = useGoogleDrive()
+  useEffect(() => {
 
-<MyButton label='label' />
+    const content = await getContent(fileID)
 
+  },[])
+
+  return (
+    <ClaimCard
+      content={claimDetail}
+      fileID={params.id as string}
+      pathname={pathname}
+      session={session}
+      storage={storage}
+      status={status}
+      fetchFileMetadata={fetchFileMetadata}
+    />
+  )
+}
 ```

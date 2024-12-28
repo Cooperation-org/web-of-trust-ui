@@ -1,5 +1,14 @@
 import { createTheme } from '@mui/material/styles';
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    t3BodyText: string;
+  }
+  interface PaletteOptions {
+    t3BodyText: string;
+  }
+}
+
 export const defaultTheme = createTheme({
   components: {
     MuiCard: {
@@ -18,5 +27,7 @@ export const defaultTheme = createTheme({
     secondary: {
       main: '#dc004e',
     },
+        t3BodyText: '#202e5b',
+
   },
 });
