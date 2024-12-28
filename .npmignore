@@ -1,4 +1,9 @@
 src/
+.storybook/
 node_modules/
+.gitignore
+.npmignore
 rollup.config.js
 tsconfig.json
+*.stories.tsx
+*.test.tsx
