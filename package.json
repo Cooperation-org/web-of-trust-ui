@@ -1,6 +1,6 @@
 {
   "name": "@web-of-trust/ui",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Web of Trust UI Components Library",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -48,7 +48,6 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "@cooperation/vc-storage": "^1.0.14",
     "@emotion/react": "^11.0.0",
     "@emotion/styled": "^11.0.0",
     "@mui/icons-material": "^6.3.0",
