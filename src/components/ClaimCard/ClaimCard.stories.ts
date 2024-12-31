@@ -73,8 +73,6 @@ export const Default: Story = {
     fileID: '123',
     status: 'authenticated',
     comments: [],
-    isView: false,
-    isAskForRecommendation: false,
     loading: false,
     errorMessage: null,
   },
@@ -84,6 +82,13 @@ export const Loading: Story = {
   args: {
     ...Default.args,
     loading: true,
+  },
+};
+
+export const NoClaimDetail: Story = {
+  args: {
+    ...Default.args,
+    claimDetail: null,
   },
 };
 
@@ -98,15 +103,7 @@ export const Error: Story = {
 export const ViewWithComments: Story = {
   args: {
     ...Default.args,
-    isView: true,
     comments: mockComments,
-  },
-};
-
-export const AskForRecommendation: Story = {
-  args: {
-    ...Default.args,
-    isAskForRecommendation: true,
   },
 };
 
