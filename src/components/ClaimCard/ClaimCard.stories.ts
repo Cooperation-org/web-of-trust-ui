@@ -1,70 +1,193 @@
+import { ClaimCard } from './ClaimCard';
 import type { Meta, StoryObj } from '@storybook/react';
-import ClaimCard from './ClaimCard';
 
+// Mock data
+const mockCredential = {
+  data: {
+    '@context': [
+      'https://www.w3.org/2018/credentials/v1',
+      'https://purl.imsglobal.org/spec/ob/v3p0/context-3.0.3.json',
+    ],
+    id: 'urn:uuid:123',
+    type: ['VerifiableCredential', 'OpenBadgeCredential'],
+    issuanceDate: '2024-12-27T17:43:58.457Z',
+    expirationDate: '2025-12-27T17:43:58.455Z',
+    credentialSubject: {
+      name: 'John Doe',
+      duration: '3 months',
+      achievement: [
+        {
+          name: 'Leadership Excellence',
+          description: 'Demonstrated exceptional leadership skills',
+          criteria: {
+            narrative: 'Led multiple successful team projects',
+          },
+        },
+      ],
+      portfolio: [
+        {
+          name: 'Project Documentation',
+          url: 'https://example.com/doc',
+        },
+      ],
+      evidenceLink: 'https://example.com/evidence',
+    },
+  },
+};
+
+const mockComments = [
+  {
+    data: {
+      '@context': [
+        'https://www.w3.org/2018/credentials/v1',
+        'https://purl.imsglobal.org/spec/ob/v3p0/context-3.0.3.json',
+      ],
+      id: 'comment1',
+      type: ['VerifiableCredential', 'OpenBadgeCredential'],
+      issuanceDate: '2024-12-27T17:43:58.457Z',
+      expirationDate: '2025-12-27T17:43:58.455Z',
+      credentialSubject: {
+        name: 'Jane Smith',
+        howKnow: 'Worked together for 2 years',
+        recommendationText: 'Excellent team player and leader',
+        qualifications: 'Senior Manager',
+        explainAnswer: 'Witnessed leadership abilities firsthand',
+      },
+    },
+  },
+];
+
+// Meta configuration for the component
 const meta: Meta<typeof ClaimCard> = {
   title: 'Components/ClaimCard',
   component: ClaimCard,
-  parameters: {
-    layout: 'centered',
-  },
-  tags: ['autodocs'],
 };
-
 export default meta;
-type Story = StoryObj<typeof ClaimCard>;
-export const ValidClaim: Story = {
+
+type Story = StoryObj<typeof meta>;
+
+// Stories
+export const Default: Story = {
   args: {
-    claim: {
-      id: "1",
-      type: ["VerifiableCredential"],
-      issuanceDate: "2024-01-15",
-      status: "valid",
-      credentialSubject: {
-        name: "John Doe",
-        achievement: [{
-          name: "Email Verification",
-          description: "Verified email ownership"
-        }],
-        duration: "Permanent"
-      }
-    }
-  }
+    claimDetail: mockCredential,
+    fileID: '123',
+    status: 'authenticated',
+    comments: [],
+    loading: false,
+    errorMessage: null,
+  },
 };
 
-export const ExpiredClaim: Story = {
+export const Loading: Story = {
   args: {
-    claim: {
-      id: "2",
-      type: ["VerifiableCredential", "License"],
-      issuanceDate: "2023-01-01",
-      expirationDate: "2023-12-31",
-      status: "expired",
-      credentialSubject: {
-        name: "Jane Smith",
-        achievement: [{
-          name: "Driver License",
-          description: "State issued driver license"
-        }],
-        duration: "1 year"
-      }
-    }
-  }
+    ...Default.args,
+    loading: true,
+  },
 };
 
-export const RevokedClaim: Story = {
+export const NoClaimDetail: Story = {
   args: {
-    claim: {
-      id: "3",
-      type: ["VerifiableCredential", "Certificate"],
-      issuanceDate: "2023-06-15",
-      status: "revoked",
-      credentialSubject: {
-        name: "Alice Johnson",
-        achievement: [{
-          name: "Professional Certificate",
-          description: "Industry certification"
-        }]
-      }
-    }
-  }
+    ...Default.args,
+    claimDetail: null,
+  },
+};
+
+export const Error: Story = {
+  args: {
+    ...Default.args,
+    claimDetail: null,
+    errorMessage: 'Failed to load claim details',
+  },
+};
+
+export const ViewWithComments: Story = {
+  args: {
+    ...Default.args,
+    comments: mockComments,
+  },
+};
+
+export const Unauthenticated: Story = {
+  args: {
+    ...Default.args,
+    status: 'unauthenticated',
+  },
+};
+
+export const NoEvidence: Story = {
+  args: {
+    ...Default.args,
+    claimDetail: {
+      ...mockCredential,
+      data: {
+        ...mockCredential.data,
+        credentialSubject: {
+          ...mockCredential.data.credentialSubject,
+          evidenceLink: undefined,
+        },
+      },
+    },
+  },
+};
+
+export const NoPortfolio: Story = {
+  args: {
+    ...Default.args,
+    claimDetail: {
+      ...mockCredential,
+      data: {
+        ...mockCredential.data,
+        credentialSubject: {
+          ...mockCredential.data.credentialSubject,
+          portfolio: [],
+        },
+      },
+    },
+  },
+};
+
+export const Mobile: Story = {
+  args: {
+    ...Default.args,
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile1',
+    },
+  },
+};
+
+export const ComplexExample: Story = {
+  args: {
+    ...Default.args,
+    claimDetail: {
+      ...mockCredential,
+      data: {
+        ...mockCredential.data,
+        credentialSubject: {
+          ...mockCredential.data.credentialSubject,
+          achievement: [
+            {
+              ...mockCredential.data.credentialSubject.achievement[0],
+              description:
+                'Extended description with <strong>HTML</strong> content',
+              criteria: {
+                narrative: `
+                  Multiple criteria points:<br>
+                  - Leadership<br>
+                  - Innovation<br>
+                  - Team building
+                `,
+              },
+            },
+          ],
+          portfolio: [
+            { name: 'Project A', url: 'https://example.com/a' },
+            { name: 'Project B', url: 'https://example.com/b' },
+            { name: 'Project C', url: 'https://example.com/c' },
+          ],
+        },
+      },
+    },
+  },
 };

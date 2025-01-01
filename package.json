@@ -1,12 +1,13 @@
 {
   "name": "@web-of-trust/ui",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Web of Trust UI Components Library",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "scripts": {
     "build": "rollup -c",
@@ -49,6 +50,7 @@
   "dependencies": {
     "@emotion/react": "^11.0.0",
     "@emotion/styled": "^11.0.0",
+    "@mui/icons-material": "^6.3.0",
     "@mui/material": "^5.0.0 || ^6.0.0",
     "react": "^17.0.0 || ^18.0.0",
     "tslib": "^2.8.1"

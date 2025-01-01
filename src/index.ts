@@ -1,4 +1,4 @@
-export { ClaimCard } from './/components/ClaimCard/ClaimCard';
+export { ClaimCard } from './components/ClaimCard/ClaimCard';
 // export { RecommendationCard } from './components/RecommendationCard/RecommendationCard';
 export type { ClaimData } from './types/claim.types';
 export type { RecommendationData } from './types/recommendation.types';
