@@ -20,43 +20,7 @@ import {
 import { useTheme } from '@mui/material/styles';
 import { SVGDate, SVGBadge, CheckMarkSVG, LineSVG } from '../../assets/SVGs';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-
-// Define types
-interface Portfolio {
-  name: string;
-  url: string;
-}
-
-interface Achievement {
-  name: string;
-  description: string;
-  criteria?: { narrative: string };
-  image?: { id: string };
-}
-
-interface CredentialSubject {
-  name: string;
-  achievement?: Achievement[];
-  duration?: string;
-  portfolio?: Portfolio[];
-  createdTime?: string;
-  evidenceLink?: string;
-  howKnow?: string;
-  recommendationText?: string;
-  qualifications?: string;
-  explainAnswer?: string;
-}
-
-interface ClaimDetail {
-  data: {
-    '@context': string[];
-    id: string;
-    type: string[];
-    issuanceDate: string;
-    expirationDate: string;
-    credentialSubject: CredentialSubject;
-  };
-}
+import { ClaimDetail } from '@/types/claim.types';
 
 interface ClaimCardProps {
   onAchievementLoad?: (achievementName: string) => void;
