@@ -337,7 +337,6 @@ weboftrust-app/
 ├── src/
 │   ├── components/
 │   │   ├── CredentialView.tsx
-│   │   └── ClaimCard.tsx
 │   ├── lib/
 │   │   └── theme.ts
 │   ├── index.tsx
@@ -580,7 +579,7 @@ export default CredentialView;
 ### Step 9: Run the Application
 
 ```bash
-npm start
+npm run start
 ```
 
 ## Common Troubleshooting
