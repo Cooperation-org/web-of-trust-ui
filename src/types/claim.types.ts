@@ -1,50 +1,35 @@
 export interface Portfolio {
-  "@type"?: string;
   name: string;
   url: string;
 }
 
 export interface Achievement {
-  id?: string;
-  type?: string[];
   name: string;
-  description?: string;
-  criteria?: {
-    narrative: string;
-  };
+  description: string;
+  criteria?: { narrative: string };
+  image?: { id: string };
 }
 
 export interface CredentialSubject {
-  type?: string[];
   name: string;
-  portfolio?: Portfolio[];
-  evidenceLink?: string;
-  evidenceDescription?: string;
-  duration?: string;
-  credentialType?: string;
   achievement?: Achievement[];
+  duration?: string;
+  portfolio?: Portfolio[];
+  createdTime?: string;
+  evidenceLink?: string;
+  howKnow?: string;
+  recommendationText?: string;
+  qualifications?: string;
+  explainAnswer?: string;
 }
 
-export interface ClaimData {
-  id: string;
-  name: string;
+export interface ClaimDetail {
   data: {
-    "@context": (string | { [key: string]: string })[];
+    '@context': string[];
     id: string;
     type: string[];
-    issuer: {
-      id: string;
-      type: string[];
-    };
     issuanceDate: string;
     expirationDate: string;
     credentialSubject: CredentialSubject;
-    proof?: {
-      type: string;
-      created: string;
-      verificationMethod: string;
-      proofPurpose: string;
-      proofValue: string;
-    };
   };
 }

@@ -1,6 +1,6 @@
 {
   "name": "@web-of-trust/ui",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Web of Trust UI Components Library",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
