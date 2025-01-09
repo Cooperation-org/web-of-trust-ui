@@ -1,6 +1,6 @@
 {
   "name": "@web-of-trust/ui",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Web of Trust UI Components Library",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -28,6 +28,11 @@
   ],
   "author": "Linked Trust",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cooperation-org/web-of-trust-ui.git"
+  },
+  "homepage": "https://github.com/Cooperation-org/web-of-trust-ui#readme",
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.3",
     "@rollup/plugin-commonjs": "^28.0.2",
