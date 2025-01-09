@@ -17,16 +17,23 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-interface Claim {
+interface Recommendation {
   id: string;
-  achievementName: string;
+  name: string;
+  vouchText: string;
 }
 
-interface ClaimsPageProps {
-  fetchClaims: () => Promise<Claim[]>;
-  onDelete: (claimId: string) => Promise<void>;
+const exampleRecommendations: Recommendation[] = [
+  { id: "1", name: "Golda Velez", vouchText: "Vouched for Ahlam Sayed" },
+  { id: "2", name: "Omar Eloui", vouchText: "Vouched for Ahlam Sayed" },
+  { id: "3", name: "Ahmed Abdelmenam", vouchText: "Vouched for Ahlam Sayed" },
+];
+
+interface RecommendationPageProps {
+  recommendation: Recommendation;
+  onDelete: (id: string) => void;
   user: { name?: string; image?: string };
-  onAddSkill: () => void;
+  onAddRecommendation: () => void;
 }
 
 const borderColors = [
@@ -38,67 +45,80 @@ const borderColors = [
   "#6366f1",
 ];
 
-const getRandomBorderColor = (): string =>
-  borderColors[Math.floor(Math.random() * borderColors.length)];
-
-const ClaimsPage: React.FC<ClaimsPageProps> = ({
-  fetchClaims,
+const RecommendationsPage: React.FC<RecommendationPageProps> = ({
   onDelete,
   user,
-  onAddSkill,
+  onAddRecommendation,
 }) => {
-  const claimsRef = useRef<Claim[]>([]);
-  const loadingRef = useRef(true);
+  const recommendationsRef = useRef<Recommendation[]>([]);
+  const loadingRef = useRef(false);
   const deleteDialogRef = useRef({
     open: false,
-    claimId: null as string | null,
+    recommendationId: null as string | null,
   });
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleDelete = async () => {
-    const { claimId } = deleteDialogRef.current;
-    if (!claimId) return;
+    const { recommendationId } = deleteDialogRef.current;
+    if (!recommendationId) return;
     try {
       deleteDialogRef.current.open = false;
-      await onDelete(claimId);
-      claimsRef.current = claimsRef.current.filter(
-        (claim) => claim.id !== claimId
+      await onDelete(recommendationId);
+      recommendationsRef.current = recommendationsRef.current.filter(
+        (recommendation) => recommendation.id !== recommendationId
       );
-      deleteDialogRef.current.claimId = null;
+      deleteDialogRef.current.recommendationId = null;
     } catch (error) {
-      console.error("Error deleting claim:", error);
+      console.error("Error deleting recommendation:", error);
     }
   };
 
-  const loadClaims = async () => {
+  const loadRecommendations = async () => {
     try {
       loadingRef.current = true;
-      claimsRef.current = await fetchClaims();
+      recommendationsRef.current = exampleRecommendations;
     } catch (error) {
-      console.error("Error fetching claims:", error);
+      console.error("Error fetching recommendation:", error);
     } finally {
       loadingRef.current = false;
     }
   };
 
-  loadClaims();
+  loadRecommendations();
 
-  const renderClaimCard = (claim: Claim) => (
+  const renderRecommendationCard = (recommendation: Recommendation) => (
     <Paper
-      key={claim.id}
+      key={recommendation.id}
       sx={{
-        border: `3px solid ${getRandomBorderColor()}`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
         padding: 2,
         marginBottom: 2,
         borderRadius: 2,
+        border: "1px solid #ddd",
+        boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
       }}
     >
-      <Typography>{claim.achievementName}</Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Avatar alt={recommendation.name} src="/placeholder.png" />
+        <Box>
+          <Typography sx={{ fontWeight: "bold" }}>
+            {recommendation.name}
+          </Typography>
+          <Typography variant="body2" sx={{ color: "#555" }}>
+            {recommendation.vouchText}
+          </Typography>
+        </Box>
+      </Box>
       <IconButton
         onClick={() => {
-          deleteDialogRef.current = { open: true, claimId: claim.id };
+          deleteDialogRef.current = {
+            open: true,
+            recommendationId: recommendation.id,
+          };
         }}
       >
         <DeleteIcon />
@@ -115,13 +135,13 @@ const ClaimsPage: React.FC<ClaimsPageProps> = ({
         padding: isMobile ? 2 : 3,
       }}
     >
-      <Box sx={{ mb: 2, display: "flex", alignItems: "center", gap: 2 }}>
+      <Box sx={{ mb: 2, display: "flex", gap: 2 }}>
         <Avatar alt="Profile Picture" src={user.image} />
         <Typography variant="h6">
           Hi, <span>{user.name}</span>
         </Typography>
-        <Button variant="contained" onClick={onAddSkill}>
-          Add a new skill
+        <Button variant="contained" onClick={onAddRecommendation}>
+          Add Recommendation
         </Button>
       </Box>
 
@@ -130,7 +150,7 @@ const ClaimsPage: React.FC<ClaimsPageProps> = ({
           <CircularProgress />
         </Box>
       ) : (
-        <Box>{claimsRef.current.map(renderClaimCard)}</Box>
+        <Box>{recommendationsRef.current.map(renderRecommendationCard)}</Box>
       )}
 
       <Dialog
@@ -162,4 +182,4 @@ const ClaimsPage: React.FC<ClaimsPageProps> = ({
   );
 };
 
-export default ClaimsPage;
+export default RecommendationsPage;
