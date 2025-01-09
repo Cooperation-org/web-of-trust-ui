@@ -7,17 +7,17 @@ import pkg from './package.json';
 const external = [
   ...Object.keys(pkg.dependencies || {}),
   ...Object.keys(pkg.peerDependencies || {}),
-  'react/jsx-runtime'
+  'react/jsx-runtime',
 ];
 
 const plugins = [
   resolve({
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
-    preferBuiltins: true
+    preferBuiltins: true,
   }),
   commonjs({
     include: /node_modules/,
-    ignoreGlobal: true
+    ignoreGlobal: true,
   }),
   typescript({
     tsconfig: './tsconfig.build.json', // We'll create this
@@ -29,10 +29,10 @@ const plugins = [
       '**/*.test.tsx',
       '**/*.test.ts',
       'node_modules',
-      '.storybook/**/*'
-    ]
+      '.storybook/**/*',
+    ],
   }),
-  terser()
+  terser(),
 ];
 
 export default {
@@ -42,22 +42,24 @@ export default {
       file: pkg.main,
       format: 'cjs',
       sourcemap: true,
-      exports: 'named'
+      exports: 'named',
     },
     {
       file: pkg.module,
       format: 'esm',
       sourcemap: true,
-      exports: 'named'
-    }
+      exports: 'named',
+    },
   ],
   plugins,
   external,
   onwarn(warning, warn) {
-    if (warning.code === 'MODULE_LEVEL_DIRECTIVE' || 
-        warning.message.includes('use client')) {
+    if (
+      warning.code === 'MODULE_LEVEL_DIRECTIVE' ||
+      warning.message.includes('use client')
+    ) {
       return;
     }
     warn(warning);
-  }
+  },
 };
