@@ -1,5 +1,11 @@
-export { ClaimCard } from './components/ClaimCard/ClaimCard';
-// export { RecommendationCard } from './components/RecommendationCard/RecommendationCard';
-export type { ClaimDetail } from './types/claim.types';
-export type { RecommendationData } from './types/recommendation.types';
-export { defaultTheme } from './theme/defaultTheme';
+// index.ts - Export LinkedTrust components alongside existing exports
+export * from './components/ClaimCard';
+export * from './components/LinkedTrustCredentialDisplay';
+export * from './types';
+
+// Re-export credential utilities
+export { 
+  detectCredentialType,
+  exportCredentialAsJSON,
+  shareCredential 
+} from './utils/credentialUtils';
